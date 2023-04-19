@@ -2,7 +2,6 @@
 
 set -euo pipefail
 
-# TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for kiota.
 GH_REPO="https://github.com/microsoft/kiota"
 TOOL_NAME="kiota"
 TOOL_TEST="kiota --version"
@@ -31,27 +30,76 @@ list_github_tags() {
 }
 
 list_all_versions() {
-	# TODO: Adapt this. By default we simply list the tag names from GitHub releases.
 	# Change this function if kiota has other means of determining installable versions.
 	list_github_tags
 }
 
+get_download_link() {
+	local version
+	version="$1"
+
+	# seems like version can come as full download url or just the version
+	if [[ ${version} = https* ]]; then
+		(echo "${version}/" | sed 's|/tag/|/download/|')
+	else
+		(echo "${GH_REPO}/releases/download/v${version}/")
+	fi
+}
+
+get_version() {
+	local version
+	version="$1"
+
+	# seems like version can come as full download url or just the version
+	if [[ ${version} = https* ]]; then
+		(echo "${version//${GH_REPO}\/releases\/tag\/v/}")
+	else
+		(echo "${version}")
+	fi
+}
+
 download_release() {
-	local version filename url
+	local version filename url base_url
 	version="$1"
 	filename="$2"
 
-	# TODO: Adapt the release URL convention for kiota
-	url="$GH_REPO/archive/v${version}.tar.gz"
+	local platform
+
+	case "$OSTYPE" in
+	darwin*) platform="osx" ;;
+	linux*) platform="linux" ;;
+	msys*) platform="win" ;;
+	cygwin*) platform="win" ;;
+	*) fail "Unsupported platform" ;;
+	esac
+
+	local architecture
+
+	case "$(uname -m)" in
+	aarch64* | arm64) architecture="arm64" ;;
+	x86_64*) architecture="x64" ;;
+	*) fail "Unsupported architecture" ;;
+	esac
+
+	base_url="$(get_download_link "${version}")"
+	url="${base_url}${platform}-${architecture}.zip"
 
 	echo "* Downloading $TOOL_NAME release $version..."
 	curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
 }
 
+sanitize_path() {
+	local path
+	path="$1"
+
+	echo "${path//${GH_REPO}\/releases\/tag\/v/}"
+}
+
 install_version() {
 	local install_type="$1"
 	local version="$2"
-	local install_path="${3%/bin}/bin"
+	local install_path="$3"
+	install_path="$(sanitize_path "$install_path")"
 
 	if [ "$install_type" != "version" ]; then
 		fail "asdf-$TOOL_NAME supports release installs only"
@@ -59,9 +107,8 @@ install_version() {
 
 	(
 		mkdir -p "$install_path"
-		cp -r "$ASDF_DOWNLOAD_PATH"/* "$install_path"
+		cp -r "$(sanitize_path "$ASDF_DOWNLOAD_PATH")"/* "$install_path"
 
-		# TODO: Assert kiota executable exists.
 		local tool_cmd
 		tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
 		test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."

@@ -8,7 +8,4 @@ plugin_dir=$(dirname "$(dirname "$current_script_path")")
 # shellcheck source=./lib/utils.bash
 source "${plugin_dir}/lib/utils.bash"
 
-install_base_path="$(sanitize_path "$ASDF_INSTALL_PATH")"
-mkdir -p "$install_base_path"
-
-install_version "$ASDF_INSTALL_TYPE" "$ASDF_INSTALL_VERSION" "$install_base_path"
+echo "."

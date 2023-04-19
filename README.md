@@ -5,6 +5,9 @@
 
 [kiota](https://aka.ms/kiota/docs) plugin for the [asdf version manager](https://asdf-vm.com).
 
+**warning**
+This plugin works only for Kiota versions >= 1.1.2
+
 </div>
 
 # Contents
@@ -16,10 +19,7 @@
 
 # Dependencies
 
-**TODO: adapt this section**
-
-- `bash`, `curl`, `tar`: generic POSIX utilities.
-- `SOME_ENV_VAR`: set this environment variable in your shell config to load the correct version of tool x.
+- `bash`, `curl`, `zip`, `uname`
 
 # Install
 
