@@ -1,6 +1,6 @@
 <div align="center">
 
-# asdf-kiota [![Build](https://github.com/andreaTP/asdf-kiota/actions/workflows/build.yml/badge.svg)](https://github.com/andreaTP/asdf-kiota/actions/workflows/build.yml) [![Lint](https://github.com/andreaTP/asdf-kiota/actions/workflows/lint.yml/badge.svg)](https://github.com/andreaTP/asdf-kiota/actions/workflows/lint.yml)
+# asdf-kiota [![Build](https://github.com/asdf-community/asdf-kiota/actions/workflows/build.yml/badge.svg)](https://github.com/asdf-community/asdf-kiota/actions/workflows/build.yml) [![Lint](https://github.com/asdf-community/asdf-kiota/actions/workflows/lint.yml/badge.svg)](https://github.com/asdf-community/asdf-kiota/actions/workflows/lint.yml)
 
 
 [kiota](https://aka.ms/kiota/docs) plugin for the [asdf version manager](https://asdf-vm.com).
@@ -28,7 +28,7 @@ Plugin:
 ```shell
 asdf plugin add kiota
 # or
-asdf plugin add kiota https://github.com/andreaTP/asdf-kiota.git
+asdf plugin add kiota https://github.com/asdf-community/asdf-kiota.git
 ```
 
 kiota:
@@ -54,8 +54,8 @@ install & manage versions.
 
 Contributions of any kind welcome! See the [contributing guide](contributing.md).
 
-[Thanks goes to these contributors](https://github.com/andreaTP/asdf-kiota/graphs/contributors)!
+[Thanks goes to these contributors](https://github.com/asdf-community/asdf-kiota/graphs/contributors)!
 
 # License
 
-See [LICENSE](LICENSE) © [Andrea Peruffo](https://github.com/andreaTP/)
+See [LICENSE](LICENSE) © [Andrea Peruffo](https://github.com/asdf-community/)
