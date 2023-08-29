@@ -2,6 +2,11 @@
 
 set -euo pipefail
 
+if ! command -v unzip &>/dev/null; then
+  echo "The 'unzip' command could not be found, please install it and retry."
+  exit
+fi
+
 current_script_path=${BASH_SOURCE[0]}
 plugin_dir=$(dirname "$(dirname "$current_script_path")")
 
